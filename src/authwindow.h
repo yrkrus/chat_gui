@@ -22,7 +22,6 @@ signals:
     void sendAuthData(std::string login, std::string pwd);          // отправка учетных данных в главную форму
     void openFormRegistration();                                    // открыть форму регистрации нового пользователя
 
-
 private:
     Ui::AuthWindow *ui;
 
