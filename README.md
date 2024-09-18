@@ -1,3 +1,5 @@
+исходный код располагается в ./src  
+
 внешний каталог подключения ./include  
 - mysql\mysql.h  
 - mysql_lib\libmysql.lib  
