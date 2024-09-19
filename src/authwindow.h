@@ -2,6 +2,7 @@
 #define AUTHWINDOW_H
 #include <QMainWindow>
 #include <QCloseEvent>
+#include "SQLResponce.h"
 
 namespace Ui {
 class AuthWindow;
@@ -24,11 +25,11 @@ signals:
 
 private:
     Ui::AuthWindow *ui;
-
+    SQL::StatusUser getStatusUser();                                // проверка на статус пользователя (активен\не активен\бан)
 
 public slots:
-    void checkAuth();  // проверка авторизации
-    void showFormRegistartion(); // открыть окно с регистрацией пользователя
+    void checkAuth();                                               // проверка авторизации
+    void showFormRegistartion();                                    // открыть окно с регистрацией пользователя
 
 protected:
     void closeEvent(QCloseEvent *event) override

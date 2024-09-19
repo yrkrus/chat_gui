@@ -345,6 +345,61 @@ std::vector<USER::UList> SQL::Base::createUsersList()
 
 }
 
+int SQL::Base::getUserCurrentStatus(std::string &login)
+{
+    if (!isConnected()) { return 0; }
+
+    const std::string query = "select state from users where login = '" + login+"'";
+
+    if (mysql_query(&this->mysql, query.c_str()) != 0)
+    {
+        MessageInfo msg_err("SQL::Base -> (getUserCurrentStatus) error ->"  + query, MessageInfo::MessageType::Type_ERR, &this->mysql);
+        return 0;
+    }
+
+    // результат
+    MYSQL_RES *result = mysql_store_result(&this->mysql);
+    MYSQL_ROW row = mysql_fetch_row(result);
+
+    return std::atoi(row[0]);
+}
+
+// изменение статуса
+void SQL::Base::changeStatusUser(std::string &login, StatusUser status)
+{
+    if (!isConnected()) {
+      MessageInfo msg_err("База не доступна!", MessageInfo::MessageType::Type_ERR);
+      return;
+    }
+
+    std::string query;
+
+    switch (status) {
+        case (StatusUser::ENABLED): {
+
+            query = "update users set state = '1' where login ='"+login+"'";
+            break;
+        }
+        case (StatusUser::DISABLED): {
+            query = "update users set state = '2' where login ='"+login+"'";
+            break;
+        }
+        case (StatusUser::BAN): {
+            query = "update users set state = '3' where login ='"+login+"'";
+            break;
+        }
+        case (StatusUser::UN_BAN): {
+             query = "update users set state = '1' where login ='"+login+"'";
+            break;
+        }
+    }
+
+    if (mysql_query(&this->mysql, query.c_str()) != 0)
+    {
+        MessageInfo msg_err("SQL::Base -> changeStatusUser -> Data (changeStatusUser) error -> query(" + query + ")",MessageInfo::MessageType::Type_ERR, &this->mysql);
+    };
+}
+
 void SQL::Base::reConnection(int count){
 
     while (!isConnected()) {

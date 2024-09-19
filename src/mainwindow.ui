@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Chat_gui </string>
   </property>
   <property name="animated">
    <bool>false</bool>

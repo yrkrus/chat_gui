@@ -3,10 +3,7 @@
 
 
 // конструктор
-USER::CurrentUser::CurrentUser()
-{
-
-}
+USER::CurrentUser::CurrentUser(){}
 
 USER::CurrentUser::CurrentUser(std::string &login, std::string &pwd)
 {

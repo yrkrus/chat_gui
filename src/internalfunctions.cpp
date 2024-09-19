@@ -35,7 +35,6 @@ std::string INTERNALFUNCTIONS::getUserStatus(int status)
         case 1: {
         return "ACTIVE";
             break;
-
         }
         case 2: {
             return "NOT_ACTIVE";

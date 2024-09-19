@@ -18,13 +18,21 @@ namespace SQL{
         SINGLE = 0,
     };
 
-    struct Message {
-        std::string dateTimeMessage;
-        std::string message;
-        int userID;
-    };
+        struct Message {
+            std::string dateTimeMessage;
+            std::string message;
+            int userID;
+        };
+
+        enum class StatusUser {
+            ENABLED,        // включить
+            DISABLED,       // выключить
+            BAN,            // бан
+            UN_BAN,         // разбан
+        };
 
 class Base{
+
         public:
             Base();                                                         // инициализация подключение
             ~Base();                                                        // закрытие подключение
@@ -44,6 +52,8 @@ class Base{
             std::string getUserLogin(int UserID);                           // получение логина пользователя
             std::vector<USER::UList> createUsersList();                     // получение списка пользователей
 
+            int getUserCurrentStatus(std::string &login);                   // получение текущего статуса пользователя
+            void changeStatusUser(std::string &login, StatusUser status);  // изменение состояние пользователя
 
         private:
             MYSQL mysql;
