@@ -13,16 +13,17 @@
 
 Чистая БД располагается в ./mysql_dump
 предустановленные пользователи
-1. Тест1 (логин test пароль test)
-2. Тест2 (логин test2 пароль 123)
+1. Тест (логин test пароль test) - статус Active
+2. Тест2 (логин test2 пароль 123) - статус Not_Active
+3. Тест3 (логин test3 пароль 123)  - статус Banned
 
 Отсутствуют проверки
 - уникальность логина
 - проверка на сложность пароля
-- статус пользователя (включен\выключен\бан)
 - новые сообщения отображаются только не прочитанные, признак bool is_view в таблице message
 
-ОПИСАНИЕ МОДУЛЕЙ  
+##ОПИСАНИЕ МОДУЛЕЙ  
+
 authwindow
 signals:
     void loginSuccess();                                            // успешная авторизация  
@@ -32,6 +33,8 @@ signals:
 public slots:  
     void checkAuth();                                               // проверка авторизации  
     void showFormRegistartion();                                    // открыть окно с регистрацией пользователя  
+private:   
+SQL::StatusUser getStatusUser();                                // проверка на статус пользователя (активен\не активен\бан)   
 
 CONSTANTS   
 Константы  
@@ -69,6 +72,8 @@ SQLResponce
    bool createNewUser(USER::NewUser &user);                        // создангие нового пользователя  
    std::string getUserLogin(int UserID);                           // получение логина пользователя  
    std::vector<USER::UList> createUsersList();                     // получение списка пользователей  
+   int getUserCurrentStatus(std::string &login);                   // получение текущего статуса пользователя   
+   void changeStatusUser(std::string &login, StatusUser status);   // изменение состояние пользователя   
   
    private: 
     int errorCountConnections {0};                      // счетчик кол-ва не успешных подключений, после которого выходим из цикла while в reConnection  
@@ -79,4 +84,9 @@ users
 класс пользователей с наследниками  
 
 userslist  
-список с пользователями  
+    void showUsersList();   // отображение всех пользователей   
+    void showButtonStatus(); // текущее изменение статусов на кнопках   
+public slots:   
+    void onlistUsersclick(const QModelIndex &index);    // получение данных о том какой пользователь выбран в листе   
+    void onDisableEnableUser();                         // включение\отключение пользователя   
+    void onBanUnBanUser();                              // бан\разбан пользователя   
